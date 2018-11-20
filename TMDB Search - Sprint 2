@@ -1,0 +1,21 @@
+private void button5_Click(object sender, EventArgs e)
+		{
+			string MovieTitle = textBox1.Text;
+			label3.Text = "";
+			System.Net.WebClient webclient = new System.Net.WebClient();
+			string webData = webclient.DownloadString("https://api.themoviedb.org/3/search/movie?api_key=0853e59fd43ca7f94bd83ad97d04ebec&query=" + MovieTitle);
+		
+			List<string> matches = new List<string>(webData.Split('{'));
+			for (int i = 2; i < matches.Count; i++)
+			{
+				string newword = matches[i].Replace('"', ' ');
+				matches[i] = newword;
+				newword = matches[i].Replace('}', '\n');
+				matches[i] = newword;
+				newword = matches[i].Replace(']', ' ');
+				matches[i] = newword;
+				newword = matches[i].Replace(',', '\n');
+				matches[i] = newword;
+				label3.Text += matches[i] + '\n';
+			}
+		}
